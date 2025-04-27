@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Job Applications</h2>
+{% if applications %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Applied Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                    <tr>
+                        <td>{{ app.job.title }}</td>
+                        <td>{{ app.job.company }}</td>
+                        <td>{{ app.job.location }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if app.status == 'Accepted' else 'warning' if app.status == 'Pending' else 'danger' }}">
+                                {{ app.status }}
+                            </span>
+                        </td>
+                        <td>{{ app.applied_date.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <a href="{{ url_for('job_details', job_id=app.job.id) }}" class="btn btn-sm btn-outline-primary">View Job</a>
+
+                            <form action="{{ url_for('withdraw_application', app_id=app.id) }}" method="POST" style="display:inline-block;">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to withdraw your application?');">Withdraw Application</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">You haven't applied to any jobs yet.</div>
+{% endif %}
+{% endblock %}

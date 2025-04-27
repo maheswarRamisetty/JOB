@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Applications for {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Applications for "{{ job.title }}"</h2>
+    <a href="{{ url_for('employer_dashboard') }}" class="btn btn-outline-secondary">Back to Dashboard</a>
+</div>
+
+{% if applications %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Applicant</th>
+                    <th>Email</th>
+                    <th>Applied Date</th>
+                    <th>Cover Letter</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                    <tr>
+                        <td>{{ app.user.username }}</td>
+                        <td>{{ app.user.email }}</td>
+                        <td>{{ app.applied_date.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#coverLetterModal{{ app.id }}">
+                                View
+                            </button>
+                        </td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if app.status == 'Accepted' else 'warning' if app.status == 'Pending' else 'danger' }}">
+                                {{ app.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('update_application', app_id=app.id) }}" class="d-inline">
+                                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="Applied" {% if app.status == 'Applied' %}selected{% endif %}>Applied</option>
+                                    <option value="Pending" {% if app.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Accepted" {% if app.status == 'Accepted' %}selected{% endif %}>Accepted</option>
+                                    <option value="Rejected" {% if app.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                    <div class="modal fade" id="coverLetterModal{{ app.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Cover Letter from {{ app.user.username }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ app.cover_letter | replace('\n', '<br>') }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">No applications received for this job yet.</div>
+{% endif %}
+{% endblock %}

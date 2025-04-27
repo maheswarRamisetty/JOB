@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <p class="card-text display-4">{{ users_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Total Jobs</h5>
+                <p class="card-text display-4">{{ jobs_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Total Applications</h5>
+                <p class="card-text display-4">{{ applications_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Quick Links</h4>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin_users') }}" class="btn btn-outline-primary">Manage Users</a>
+                    <a href="{{ url_for('admin_jobs') }}" class="btn btn-outline-success">Manage Jobs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

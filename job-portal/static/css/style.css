@@ -1,0 +1,50 @@
+body {
+    padding-top: 56px;
+    background-color: #f8f9fa;
+}
+
+.card {
+    transition: transform 0.2s;
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.list-group-item {
+    transition: all 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+footer {
+    margin-top: 3rem;
+}
+
+.job-card {
+    height: 100%;
+}
+
+.job-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.job-card .card-text {
+    flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1.5rem;
+    }
+}

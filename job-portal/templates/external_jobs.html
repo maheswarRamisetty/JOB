@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}External Jobs{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8 mx-auto">
+        <form action="{{ url_for('external_jobs') }}" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" name="keywords" placeholder="Job title, keywords..." value="{{ keywords }}">
+                <input type="text" class="form-control" name="location" placeholder="Location" value="{{ location }}">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h2 class="mb-4">External Job Listings</h2>
+{% if jobs %}
+    <div class="row">
+        {% for job in jobs %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ job.company.display_name }} - {{ job.location.display_name }}</h6>
+                        <p class="card-text">{{ job.description | safe }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">{{ job.category.label }}</span>
+                            {% if job.salary_min or job.salary_max %}
+                                <span class="text-success">
+                                    £{{ job.salary_min | default(0) }} - £{{ job.salary_max | default(0) }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ job.redirect_url }}" target="_blank" class="btn btn-sm btn-outline-primary">Apply on Adzuna</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('external_jobs', keywords=keywords, location=location, page=page-1) }}">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('external_jobs', keywords=keywords, location=location, page=page+1) }}">Next</a>
+            </li>
+        </ul>
+    </nav>
+{% else %}
+    <div class="alert alert-info">No external jobs found matching your criteria.</div>
+{% endif %}
+{% endblock %}

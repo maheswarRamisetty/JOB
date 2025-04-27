@@ -1,0 +1,42 @@
+[
+    {
+        "title": "Software Engineer",
+        "description": "We are looking for a skilled software engineer to join our team. You will be responsible for developing and maintaining web applications using Python and Flask.",
+        "salary": "$80,000 - $100,000",
+        "location": "New York, NY",
+        "category": "Information Technology",
+        "company": "Tech Solutions Inc."
+    },
+    {
+        "title": "Marketing Manager",
+        "description": "Seeking an experienced marketing manager to lead our marketing team and develop strategies to increase brand awareness and sales.",
+        "salary": "$70,000 - $90,000",
+        "location": "Chicago, IL",
+        "category": "Marketing",
+        "company": "Creative Marketing Co."
+    },
+    {
+        "title": "Data Analyst",
+        "description": "Looking for a data analyst to interpret complex data and turn it into actionable insights for our business decisions.",
+        "salary": "$65,000 - $85,000",
+        "location": "Remote",
+        "category": "Data Science",
+        "company": "Data Insights LLC"
+    },
+    {
+        "title": "Graphic Designer",
+        "description": "Creative graphic designer needed to produce visual content for our marketing campaigns and digital platforms.",
+        "salary": "$50,000 - $70,000",
+        "location": "Los Angeles, CA",
+        "category": "Design",
+        "company": "Visual Arts Studio"
+    },
+    {
+        "title": "Customer Support Specialist",
+        "description": "Join our customer support team to help our clients with product inquiries and technical issues.",
+        "salary": "$40,000 - $55,000",
+        "location": "Austin, TX",
+        "category": "Customer Service",
+        "company": "Service First Inc."
+    }
+]

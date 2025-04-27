@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8 mx-auto">
+        <form action="{{ url_for('search_jobs') }}" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" placeholder="Search for jobs..." value="{{ search_query if search_query }}">
+                <input type="text" class="form-control" name="location" placeholder="Location" value="{{ location if location }}">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+            <div class="mt-2">
+                <select name="category" class="form-select">
+                    <option value="">All Categories</option>
+                    <option value="Information Technology" {% if category == 'Information Technology' %}selected{% endif %}>IT</option>
+                    <option value="Marketing" {% if category == 'Marketing' %}selected{% endif %}>Marketing</option>
+                    <option value="Data Science" {% if category == 'Data Science' %}selected{% endif %}>Data Science</option>
+                    <option value="Design" {% if category == 'Design' %}selected{% endif %}>Design</option>
+                    <option value="Customer Service" {% if category == 'Customer Service' %}selected{% endif %}>Customer Service</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h2 class="mb-4">Latest Job Listings</h2>
+{% if jobs %}
+    <div class="row">
+        {% for job in jobs %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ job.company }} - {{ job.location }}</h6>
+                        <p class="card-text">{{ job.description[:150] }}...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">{{ job.category }}</span>
+                            <span class="text-success">{{ job.salary }}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ url_for('job_details', job_id=job.id) }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">No jobs found matching your criteria.</div>
+{% endif %}
+{% endblock %}

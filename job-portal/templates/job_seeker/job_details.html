@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">{{ job.title }}</h2>
+                <h4 class="card-subtitle mb-3 text-muted">{{ job.company }} - {{ job.location }}</h4>
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="badge bg-primary">{{ job.category }}</span>
+                    <span class="text-success h5">{{ job.salary }}</span>
+                </div>
+                <div class="mb-4">
+                    <h5>Job Description</h5>
+                    <p>{{ job.description }}</p>
+                </div>
+                <div class="text-muted">
+                    <small>Posted on {{ job.posted_date.strftime('%B %d, %Y') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                {% if has_applied %}
+                    <div class="alert alert-success">
+                        You've already applied for this position.
+                    </div>
+                    <a href="{{ url_for('my_applications') }}" class="btn btn-primary w-100">View My Applications</a>
+                {% else %}
+                    <h5 class="card-title">Apply for this position</h5>
+                    <a href="{{ url_for('apply_job', job_id=job.id) }}" class="btn btn-primary w-100">Apply Now</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

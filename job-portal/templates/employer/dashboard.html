@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Employer Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Your Job Postings</h2>
+            <a href="{{ url_for('post_job') }}" class="btn btn-primary">Post New Job</a>
+        </div>
+        
+        {% if jobs %}
+            <div class="list-group">
+                {% for job in jobs %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ job.title }}</h5>
+                            <small>{{ job.posted_date.strftime('%Y-%m-%d') }}</small>
+                        </div>
+                        <p class="mb-1">{{ job.description[:100] }}...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-primary me-2">{{ job.category }}</span>
+                                <span class="text-muted">{{ job.location }}</span>
+                            </div>
+                            <div>
+                                <span class="text-success me-3">{{ job.salary }}</span>
+                                <a href="{{ url_for('view_applications', job_id=job.id) }}" class="btn btn-sm btn-outline-primary">
+                                    View Applications ({{ job.applications|length }})
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">You haven't posted any jobs yet.</div>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Recent Applications</h4>
+            </div>
+            <div class="card-body">
+                {% if applications %}
+                    <ul class="list-group">
+                        {% for app in applications[:5] %}
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>{{ app.job.title }}</strong><br>
+                                        <small>By {{ app.user.username }}</small>
+                                    </div>
+                                    <span class="badge bg-{{ 'success' if app.status == 'Accepted' else 'warning' if app.status == 'Pending' else 'danger' }}">
+                                        {{ app.status }}
+                                    </span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No recent applications.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
